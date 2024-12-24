@@ -8,13 +8,47 @@ generator client {
 }
 
 model Broker {
-  id          String   @id @default(uuid())
-  name        String
-  phoneNumber String
-  email       String   @unique
+  id      String  @id @default(uuid())
+  name    String
+  contact String
+  houses  House[]
 }
 
 model Country {
   id   String @id @default(uuid())
   name String
+}
+
+model House {
+  id          String       @id @default(uuid())
+  title       String
+  description String
+  location    String
+  numberRooms Int
+  beds        Int
+  price       String
+  src         String
+  sold        Boolean
+  houseTypes  HouseTypes
+  images      HouseImage[]
+  brokerId    String?
+  broker      Broker?      @relation(fields: [brokerId], references: [id])
+  timestamp   DateTime     @default(now())
+}
+
+model HouseImage {
+  id     String @id @default(uuid())
+  url    String
+  house  House  @relation(fields: [houseId], references: [id])
+  houseId String
+}
+
+enum HouseTypes {
+  CONDOMINIUM
+  VILLA
+  TOWNHOUSE
+  VACATION_HOME
+  ESTATES_AND_FARMS
+  LAND
+  OTHER_HOUSES
 }

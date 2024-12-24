@@ -1,8 +1,11 @@
 export class Broker {
-    constructor(
-        public id: string,
-        public name: string,
-        public phoneNumber: string,
-        public email: string
-    ) {}
+    id: string;
+    name: string;
+    contact: string;
+
+    constructor(id: string, name: string, contact: string) {
+        this.id = id;
+        this.name = name;
+        this.contact = contact;
+    }
 }
