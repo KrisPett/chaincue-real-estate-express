@@ -26,7 +26,11 @@ class HouseService {
 
     static async findById(id: string): Promise<House> {
         const house = await prisma.house.findUnique({
-            where: { id: id }
+            where: { id: id },
+            include: {
+                images: true,
+                broker: true
+            }
         });
         if (!house) {
             throw new Error(`House with id ${id} not found`);
