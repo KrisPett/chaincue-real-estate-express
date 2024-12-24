@@ -1,9 +1,9 @@
 import { Router, Request, Response } from 'express';
 import { House } from '../../domains/House';
-import HouseService from '../../services/HouseService';
 import { BrokerDTO, HousePageDTO, HouseImageDTO } from './HousePageDTO';
 import { Broker } from '../../domains/Broker';
 import { HouseImage } from '../../domains/HouseImage';
+import { HouseHelper } from '../../utilities/HouseHelper';
 
 const router = Router();
 
@@ -18,9 +18,8 @@ router.get('/page/:houseId', async (req: Request, res: Response) => {
 const toHousePageDTO = async (houseId: string): Promise<HousePageDTO> => {
     const dtoBuilder = new DTOBuilder();
 
-    const house = await HouseService.findById(houseId);
-    dtoBuilder.house = house;
-    
+    await HouseHelper.updateDTOBuilderWithHouseByHouseId(houseId, (dtoBuilder: DTOBuilder, house) => dtoBuilder.house = house)(dtoBuilder);
+
     return toDTO(dtoBuilder);
 };
 

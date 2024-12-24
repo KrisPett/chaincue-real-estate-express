@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express';
-import { Country, CountryNames } from '../../domains/Country';
-import { House, HouseTypes } from '../../domains/House';
+import { Country } from '../../domains/Country';
+import { House } from '../../domains/House';
 import HouseService from '../../services/HouseService';
 import { CountryService } from '../../services/CountryService';
 import {CountryDTO, HouseDTO, HousesPageDTO} from './HousesPageDTO';

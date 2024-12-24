@@ -1,9 +1,9 @@
 import { Router, Request, Response } from 'express';
-import { Country, CountryNames } from '../../domains/Country';
-import { House, HouseTypes } from '../../domains/House';
-import HouseService from '../../services/HouseService';
-import { CountryService } from '../../services/CountryService';
+import { Country } from '../../domains/Country';
+import { House } from '../../domains/House';
 import {CountryDTO, HouseDTO, HomePageDTO} from './HomePageDTO';
+import { CountryHelper } from '../../utilities/CountryHelper';
+import { HouseHelper } from '../../utilities/HouseHelper';
 
 const router = Router();
 
@@ -18,8 +18,8 @@ router.get('/page', async (req: Request, res: Response) => {
 const toHomePageDTO = async (): Promise<HomePageDTO> => {
     const dtoBuilder = new DTOBuilder();
 
-    dtoBuilder.countries = await CountryService.findAll();
-    dtoBuilder.houses = await HouseService.findAll();
+    await CountryHelper.updateDTOBuilderWithCountries((dtoBuilder: DTOBuilder, countries) => dtoBuilder.countries = countries)(dtoBuilder);
+    await HouseHelper.updateDTOBuilderWithHouses((dtoBuilder: DTOBuilder, houses) => dtoBuilder.houses = houses)(dtoBuilder);
 
     return toDTO(dtoBuilder);
 };
