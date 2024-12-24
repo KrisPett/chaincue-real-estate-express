@@ -4,14 +4,8 @@ import { House, HouseTypes } from '../domains/House';
 
 const prisma = new PrismaClient();
 
-export interface HouseServiceI {
-    save(houseTypes: HouseTypes): Promise<House>;
-    findById(id: string): Promise<House>;
-    findAll(): Promise<House[]>;
-}
-
-class HouseService implements HouseServiceI {
-    async save(houseTypes: HouseTypes) {
+class HouseService {
+    static async save(houseTypes: HouseTypes): Promise<House> {
         const house = await prisma.house.create({
             data: {
                 id: uuidv4(),
@@ -30,7 +24,7 @@ class HouseService implements HouseServiceI {
         return house;
     }
 
-    async findById(id: string) {
+    static async findById(id: string): Promise<House> {
         const house = await prisma.house.findUnique({
             where: { id: id }
         });
@@ -40,9 +34,9 @@ class HouseService implements HouseServiceI {
         return house;
     }
 
-    async findAll() {
+    static async findAll(): Promise<House[]> {
         return await prisma.house.findMany();
     }
 }
 
-export default new HouseService();
+export default HouseService;

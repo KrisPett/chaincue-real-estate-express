@@ -3,13 +3,8 @@ import { Country, CountryNames } from '../domains/Country';
 
 const prisma = new PrismaClient();
 
-export interface CountryServiceI {
-    save(countryNames: CountryNames): Promise<Country>;
-    findAll(): Promise<Country[]>;
-}
-
-export class CountryService implements CountryServiceI {
-    async save(countryNames: CountryNames): Promise<Country> {
+export class CountryService{
+    static async save(countryNames: CountryNames): Promise<Country> {
         return await prisma.country.create({
             data: {
                 id: crypto.randomUUID(),
@@ -18,7 +13,9 @@ export class CountryService implements CountryServiceI {
         });
     }
 
-    async findAll(): Promise<Country[]> {
+    static async findAll(): Promise<Country[]> {
         return await prisma.country.findMany();
     }
 }
+
+export default CountryService;
